@@ -1,5 +1,6 @@
 package com.poly.hangnt169.B1_Hibernate.util;
 
+import com.poly.hangnt169.B1_Hibernate.entity.Category1;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -23,11 +24,11 @@ public class HibernateUtil {
         properties.put(Environment.SHOW_SQL, "true");
 
         conf.setProperties(properties);
+        conf.addAnnotatedClass(Category1.class);
 
         ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySettings(conf.getProperties()).build();
         FACTORY = conf.buildSessionFactory(registry);
-
     }
 
     public static SessionFactory getFACTORY() {
