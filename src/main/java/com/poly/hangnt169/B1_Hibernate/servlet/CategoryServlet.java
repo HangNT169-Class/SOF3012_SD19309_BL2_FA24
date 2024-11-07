@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -86,7 +88,16 @@ import java.util.List;
         }
     }
 
-    private void addCate(HttpServletRequest request, HttpServletResponse response) {
+    @SneakyThrows
+    private void addCate(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // B1: Tao ra doi tuong can add
+        Category1 cate = new Category1();
+        // B2: Mapping du lieu
+        BeanUtils.populate(cate,request.getParameterMap());
+        // B3: Goi ham add trong repo
+        categoryRepository.add(cate);
+        // B4: Quay ve trang chu
+        response.sendRedirect("/category/hien-thi");
     }
 
     private void updateCate(HttpServletRequest request, HttpServletResponse response) {
@@ -95,16 +106,32 @@ import java.util.List;
     private void searchCate(HttpServletRequest request, HttpServletResponse response) {
     }
 
-    private void viewAddCate(HttpServletRequest request, HttpServletResponse response) {
+    private void viewAddCate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/view/buoi1/add-category.jsp").forward(request, response);
     }
 
-    private void viewUpdateCate(HttpServletRequest request, HttpServletResponse response) {
+    private void viewUpdateCate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("b");
+        Category1 cate = categoryRepository.getOne(Long.valueOf(id));
+        request.setAttribute("cate1", cate);
+        request.getRequestDispatcher("/view/buoi1/update-cate.jsp").forward(request, response);
     }
 
-    private void deleteCate(HttpServletRequest request, HttpServletResponse response) {
+    private void deleteCate(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // B1: Lay gia id tren duong dan => request.getParameter
+        String id = request.getParameter("a");
+        // B2: Goi ham xoa repo
+        Category1 cate = categoryRepository.getOne(Long.valueOf(id));
+        categoryRepository.delete(cate);
+        // B3: Quay ve trang chu
+        response.sendRedirect("/category/hien-thi");
     }
 
-    private void detailsCate(HttpServletResponse response, HttpServletRequest request) {
+    private void detailsCate(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        Category1 cate = categoryRepository.getOne(Long.valueOf(id));
+        request.setAttribute("cate1", cate);
+        request.getRequestDispatcher("/view/buoi1/detail-cate.jsp").forward(request, response);
     }
 
     private void hienThiCate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -113,7 +140,7 @@ import java.util.List;
         // B2:Day list => jsp => request.setAttribute
         request.setAttribute("listCategory", a1);
         // B3: Chuyen trang
-        request.getRequestDispatcher("/view/buoi1/categorys.jsp").forward(request,response);
+        request.getRequestDispatcher("/view/buoi1/categorys.jsp").forward(request, response);
     }
 
 }
