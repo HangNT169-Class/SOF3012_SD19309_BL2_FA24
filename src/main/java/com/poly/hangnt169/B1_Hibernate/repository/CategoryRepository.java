@@ -51,8 +51,53 @@ public class CategoryRepository {
         return query.getResultList(); // tra ve ca ds tim thay
     }
 
+    /**
+     * -- giai thich ham nay la gi lam gi
+     *
+     * @param pageNo:   gt gia tri cua bien nay: so Trang (trang so 1, trang 2..)
+     * @param pageSize: so luong phan tu trong 1 trang
+     * @return : gt gia tri tra ve
+     */
+    public List<Category1> phanTrangSQl(Integer pageNo, Integer pageSize) {
+        // TRANG DAU TIEN BAT DAU BANG 0
+        Integer offset1 = pageNo * pageSize;
+        // B1: Tao cau lenh SQL
+//        String sql = "SELECT * from category " +
+//                "ORDER BY id  " +
+//                "OFFSET :offset ROWS \n" +
+//                "FETCH NEXT :pageSize1 ROWS ONLY ";
+            String sql = """
+               select * from category
+              ORDER BY id
+              OFFSET :offset ROWS
+              FETCH NEXT :pageSize1 ROWS ONLY;
+            """;
+//        String sql1="select * from category\n" +
+//                "ORDER BY id \n" +
+//                "OFFSET9 ROWS \n" +
+//                "FETCH NEXT 3 ROWS ONLY ";
+        // B2: Tao query
+        Query query = s.createNativeQuery(sql, Category1.class);
+        // B3: Set value
+        query.setParameter("offset",offset1);
+        query.setParameter("pageSize1",pageSize);
+        return  query.getResultList();
+    }
+
+    public List<Category1>phanTrangHQl(Integer pageNo, Integer pageSize){
+        int offset = pageNo * pageSize;
+        String hql = """
+                SELECT cate FROM Category1 cate  
+                ORDER BY cate.id1
+                """;
+        Query query = s.createQuery(hql);
+        query.setFirstResult(offset); // NGANG HANG VS OFFSET => KET QUA TRA RA LA +1
+        query.setMaxResults(pageSize); // SO LUONG MAX/TRANG
+        return  query.getResultList();
+    }
     public static void main(String[] args) {
-        System.out.println(new CategoryRepository().getOne2(1L));
+//        System.out.println(new CategoryRepository().getOne2(1L));
+        System.out.println(new CategoryRepository().phanTrangHQl(1,4));
     }
 
     // Them/ Sua/Xoa
