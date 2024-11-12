@@ -1,6 +1,7 @@
 package com.poly.hangnt169.B1_Hibernate.util;
 
 import com.poly.hangnt169.B1_Hibernate.entity.Category1;
+import com.poly.hangnt169.B1_Hibernate.entity.Product;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -25,6 +26,7 @@ public class HibernateUtil {
 
         conf.setProperties(properties);
         conf.addAnnotatedClass(Category1.class);
+        conf.addAnnotatedClass(Product.class);
 
         ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySettings(conf.getProperties()).build();

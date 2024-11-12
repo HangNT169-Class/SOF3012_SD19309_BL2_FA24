@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Table(name = "product")
 @Entity
@@ -19,6 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +30,9 @@ public class Product {
     private String productCode;
 
     @Column(name = "product_name")
-    private String productNam;
+    private String productName;
 
-    @Column
+    @Column(name = "price")
     private Float price;
 
     @Column
@@ -53,6 +55,6 @@ public class Product {
     // Default many to one => eager
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Category1 cate;
+    private Category1 cate1;
 
 }
