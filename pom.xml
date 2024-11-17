@@ -9,16 +9,13 @@
     <version>1.0-SNAPSHOT</version>
     <name>SOF3012_SD19309_BL2_FA24</name>
     <packaging>war</packaging>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
         <junit.version>5.9.1</junit.version>
     </properties>
-
     <dependencies>
-
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
