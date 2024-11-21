@@ -41,7 +41,6 @@ public class AuthFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-//        chain.doFilter(request, response);
         // B1: EP KIEU VE HttpServletResponse, HTTPSERVLETREQUEST
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
@@ -54,7 +53,25 @@ public class AuthFilter implements Filter {
             res.sendRedirect("/login");
         } else {
             // da dang nhap thanh cong
-            chain.doFilter(request, response);
+            // ADMIN => ALL DUONG DAN
+            // NHANVIEN => CATEGORY & PRODUCT
+            // B1: LAY RA ROLE CUA TAI KHOAN HIEN TAI
+            String role = (String) session.getAttribute("role1");
+            if (role.equalsIgnoreCase("Admin")) {
+                // TRUY CAP FULL TATT
+                chain.doFilter(request, response);
+            } else {
+                // TAI KHOAN NHAN VIEN
+                String uri = req.getRequestURI();
+                if (uri.startsWith("/category/")) {
+                    chain.doFilter(request, response);
+                } else if (uri.startsWith("/product/")) {
+                    chain.doFilter(request, response);
+                } else {
+                    // 403 => KHONG DUOC PHEP TRUY CAP
+                    res.sendRedirect("/view/buoi10/403.jsp");
+                }
+            }
         }
     }
 }

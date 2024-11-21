@@ -10,6 +10,8 @@
     <button type="submit">Search</button>
 </form>
 <br/>
+<h1>xin chao tai khoan: ${sessionScope.uname}</h1>
+<a href="/dang-xuat">Dang xuat</a>
 <button><a href="/category/view-add">Add Category</a></button>
 <table>
     <thead>
@@ -30,11 +32,11 @@
             <td>${cate.categoryCode}</td>
             <td>${cate.categoryName}</td>
             <td>
-                <%--  Cach truyen tham so tren duong dan
-                              ?tenbien=giatri
-                              Nen can truyen nhieu hon 1 ts
-                              => tu ts 2 tro di se la dau &
-                              --%>
+                    <%--  Cach truyen tham so tren duong dan
+                                  ?tenbien=giatri
+                                  Nen can truyen nhieu hon 1 ts
+                                  => tu ts 2 tro di se la dau &
+                                  --%>
                 <button><a href="/category/delete?a=${cate.id1}">Delete</a></button>
                 <button><a href="/category/detail?id=${cate.id1}">Detail</a></button>
                 <button><a href="/category/view-update?b=${cate.id1}">Update</a></button>
